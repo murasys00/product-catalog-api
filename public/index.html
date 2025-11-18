@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+</head>
+<body>
+    <h1>Display Products</h1>
+    <button id="get">Load</button>
+    <div id="container"></div>
+
+
+    <script>
+        document.getElementById("get").addEventListener("click", () => {
+            fetch("/products")
+            .then(res => res.json())
+            .then(products => {
+                const container = document.getElementById("container");
+                container.textContent = "";
+                products.forEach(product => {
+                    const card = document.createElement("div");
+                    card.className = "product-card";
+                    card.innerHTML = `
+                        <h3>${product.name}</h3>
+                        <p><strong>Category:</strong> ${product.category}</p>
+                        <p><strong>Price:</strong> ${product.price}</p>
+                        <p><strong>inStock:</strong> ${product.inStock}</p>
+                    `;
+
+                    container.appendChild(card);
+                })
+            })
+            .catch(err => console.log("Error",err));
+        })
+    </script>
+</body>
+</html>
